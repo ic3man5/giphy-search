@@ -24,7 +24,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
 async function searchGif() {
   lastSearchString = greetInputEl.value;
-  let gifs = await invoke("search_gif", { name: greetInputEl.value });
+  let gifs;
+  try {
+    gifs = await invoke("search_gif", { name: greetInputEl.value });
+  } catch (err) {
+    document.querySelector('#result-message').innerHTML = err;
+    return;
+  }
+  console.log(gifs);
   // clear all the previous elements
   gifListEl.replaceChildren();
   for (let i = 0; i < gifs.length; i++) {
